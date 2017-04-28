@@ -10,14 +10,14 @@ public class ConditionTest1 {
 	private static Condition condition = lock.newCondition();
 
 	public static void main(String[] args) {
-		ThreadA ta = new ThreadA("Ïß³ÌA");
+		ThreadA ta = new ThreadA("çº¿ç¨‹A");
 		lock.lock();
 		try {
-			System.out.println(Thread.currentThread().getName() + "Ïß³ÌÆô¶¯Ïß³ÌA!");
+			System.out.println(Thread.currentThread().getName() + "çº¿ç¨‹å¯åŠ¨çº¿ç¨‹A!");
 			ta.start();
-			System.out.println(Thread.currentThread().getName() + "Ïß³Ì×èÈû!");
+			System.out.println(Thread.currentThread().getName() + "çº¿ç¨‹é˜»å¡!");
 			condition.await();
-			System.out.println(Thread.currentThread().getName() + "Ïß³Ì¼ÌĞøÖ´ĞĞ!");
+			System.out.println(Thread.currentThread().getName() + "çº¿ç¨‹ç»§ç»­æ‰§è¡Œ!");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -36,8 +36,8 @@ public class ConditionTest1 {
 		public void run() {
 			lock.lock();
 			try {
-				System.out.println(Thread.currentThread().getName() + "¿ªÊ¼Ö´ĞĞ!");
-				System.out.println(Thread.currentThread().getName() + "»½ĞÑÆäËüÏß³Ì!");
+				System.out.println(Thread.currentThread().getName() + "å¼€å§‹æ‰§è¡Œ!");
+				System.out.println(Thread.currentThread().getName() + "å”¤é†’å…¶å®ƒçº¿ç¨‹!");
 				condition.signal();
 			} finally {
 				lock.unlock();

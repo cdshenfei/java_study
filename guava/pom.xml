@@ -9,8 +9,15 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>concurrent</artifactId>
+	<artifactId>guava</artifactId>
 	<packaging>jar</packaging>
-	<name>concurrent</name>
+	<name>guava</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+	</dependencies>
 
 </project>

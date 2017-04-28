@@ -5,15 +5,15 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.Condition;
 
 // LockTest3.java
-// Ò»¸ö±È½ÏÍêÕûµÄÉú²úÕß/Ïû·ÑÕß³ÌÐò
+// ä¸€ä¸ªæ¯”è¾ƒå®Œæ•´çš„ç”Ÿäº§è€…/æ¶ˆè´¹è€…ç¨‹åº
 public class LockTest3 {
 
 	static class Depot {
-		private int capacity; // ²Ö¿âµÄÈÝÁ¿
-		private int size; // ²Ö¿âµÄÊµ¼ÊÊýÁ¿
-		private Lock lock; // ¶ÀÕ¼Ëø
-		private Condition fullCondtion; // Éú²úÌõ¼þ
-		private Condition emptyCondtion; // Ïû·ÑÌõ¼þ
+		private int capacity; // ä»“åº“çš„å®¹é‡
+		private int size; // ä»“åº“çš„å®žé™…æ•°é‡
+		private Lock lock; // ç‹¬å é”
+		private Condition fullCondtion; // ç”Ÿäº§æ¡ä»¶
+		private Condition emptyCondtion; // æ¶ˆè´¹æ¡ä»¶
 
 		public Depot(int capacity) {
 			this.capacity = capacity;
@@ -26,20 +26,20 @@ public class LockTest3 {
 		public void produce(int val) {
 			lock.lock();
 			try {
-				// left ±íÊ¾¡°ÏëÒªÉú²úµÄÊýÁ¿¡±(ÓÐ¿ÉÄÜÉú²úÁ¿Ì«¶à£¬Ðè¶à´ËÉú²ú)
+				// left è¡¨ç¤ºâ€œæƒ³è¦ç”Ÿäº§çš„æ•°é‡â€(æœ‰å¯èƒ½ç”Ÿäº§é‡å¤ªå¤šï¼Œéœ€å¤šæ­¤ç”Ÿäº§)
 				int left = val;
 				while (left > 0) {
-					// ¿â´æÒÑÂúÊ±£¬µÈ´ý¡°Ïû·ÑÕß¡±Ïû·Ñ²úÆ·¡£
+					// åº“å­˜å·²æ»¡æ—¶ï¼Œç­‰å¾…â€œæ¶ˆè´¹è€…â€æ¶ˆè´¹äº§å“ã€‚
 					while (size >= capacity)
 						fullCondtion.await();
-					// »ñÈ¡¡°Êµ¼ÊÉú²úµÄÊýÁ¿¡±(¼´¿â´æÖÐÐÂÔöµÄÊýÁ¿)
-					// Èç¹û¡°¿â´æ¡±+¡°ÏëÒªÉú²úµÄÊýÁ¿¡±>¡°×ÜµÄÈÝÁ¿¡±£¬Ôò¡°Êµ¼ÊÔöÁ¿¡±=¡°×ÜµÄÈÝÁ¿¡±-¡°µ±Ç°ÈÝÁ¿¡±¡£(´ËÊ±ÌîÂú²Ö¿â)
-					// ·ñÔò¡°Êµ¼ÊÔöÁ¿¡±=¡°ÏëÒªÉú²úµÄÊýÁ¿¡±
+					// èŽ·å–â€œå®žé™…ç”Ÿäº§çš„æ•°é‡â€(å³åº“å­˜ä¸­æ–°å¢žçš„æ•°é‡)
+					// å¦‚æžœâ€œåº“å­˜â€+â€œæƒ³è¦ç”Ÿäº§çš„æ•°é‡â€>â€œæ€»çš„å®¹é‡â€ï¼Œåˆ™â€œå®žé™…å¢žé‡â€=â€œæ€»çš„å®¹é‡â€-â€œå½“å‰å®¹é‡â€ã€‚(æ­¤æ—¶å¡«æ»¡ä»“åº“)
+					// å¦åˆ™â€œå®žé™…å¢žé‡â€=â€œæƒ³è¦ç”Ÿäº§çš„æ•°é‡â€
 					int inc = (size + left) > capacity ? (capacity - size) : left;
 					size += inc;
 					left -= inc;
 					System.out.printf("%s produce(%3d) --> left=%3d, inc=%3d, size=%3d\n", Thread.currentThread().getName(), val, left, inc, size);
-					// Í¨Öª¡°Ïû·ÑÕß¡±¿ÉÒÔÏû·ÑÁË¡£
+					// é€šçŸ¥â€œæ¶ˆè´¹è€…â€å¯ä»¥æ¶ˆè´¹äº†ã€‚
 					emptyCondtion.signal();
 				}
 			} catch (InterruptedException e) {
@@ -51,15 +51,15 @@ public class LockTest3 {
 		public void consume(int val) {
 			lock.lock();
 			try {
-				// left ±íÊ¾¡°¿Í»§ÒªÏû·ÑÊýÁ¿¡±(ÓÐ¿ÉÄÜÏû·ÑÁ¿Ì«´ó£¬¿â´æ²»¹»£¬Ðè¶à´ËÏû·Ñ)
+				// left è¡¨ç¤ºâ€œå®¢æˆ·è¦æ¶ˆè´¹æ•°é‡â€(æœ‰å¯èƒ½æ¶ˆè´¹é‡å¤ªå¤§ï¼Œåº“å­˜ä¸å¤Ÿï¼Œéœ€å¤šæ­¤æ¶ˆè´¹)
 				int left = val;
 				while (left > 0) {
-					// ¿â´æÎª0Ê±£¬µÈ´ý¡°Éú²úÕß¡±Éú²ú²úÆ·¡£
+					// åº“å­˜ä¸º0æ—¶ï¼Œç­‰å¾…â€œç”Ÿäº§è€…â€ç”Ÿäº§äº§å“ã€‚
 					while (size <= 0)
 						emptyCondtion.await();
-					// »ñÈ¡¡°Êµ¼ÊÏû·ÑµÄÊýÁ¿¡±(¼´¿â´æÖÐÊµ¼Ê¼õÉÙµÄÊýÁ¿)
-					// Èç¹û¡°¿â´æ¡±<¡°¿Í»§ÒªÏû·ÑµÄÊýÁ¿¡±£¬Ôò¡°Êµ¼ÊÏû·ÑÁ¿¡±=¡°¿â´æ¡±£»
-					// ·ñÔò£¬¡°Êµ¼ÊÏû·ÑÁ¿¡±=¡°¿Í»§ÒªÏû·ÑµÄÊýÁ¿¡±¡£
+					// èŽ·å–â€œå®žé™…æ¶ˆè´¹çš„æ•°é‡â€(å³åº“å­˜ä¸­å®žé™…å‡å°‘çš„æ•°é‡)
+					// å¦‚æžœâ€œåº“å­˜â€<â€œå®¢æˆ·è¦æ¶ˆè´¹çš„æ•°é‡â€ï¼Œåˆ™â€œå®žé™…æ¶ˆè´¹é‡â€=â€œåº“å­˜â€ï¼›
+					// å¦åˆ™ï¼Œâ€œå®žé™…æ¶ˆè´¹é‡â€=â€œå®¢æˆ·è¦æ¶ˆè´¹çš„æ•°é‡â€ã€‚
 					int dec = (size < left) ? size : left;
 					size -= dec;
 					left -= dec;
@@ -77,7 +77,7 @@ public class LockTest3 {
 		}
 	};
 
-	// Éú²úÕß
+	// ç”Ÿäº§è€…
 	static class Producer {
 		private Depot depot;
 
@@ -85,7 +85,7 @@ public class LockTest3 {
 			this.depot = depot;
 		}
 
-		// Ïû·Ñ²úÆ·£ºÐÂ½¨Ò»¸öÏß³ÌÏò²Ö¿âÖÐÉú²ú²úÆ·¡£
+		// æ¶ˆè´¹äº§å“ï¼šæ–°å»ºä¸€ä¸ªçº¿ç¨‹å‘ä»“åº“ä¸­ç”Ÿäº§äº§å“ã€‚
 		public void produce(final int val) {
 			new Thread() {
 				public void run() {
@@ -95,7 +95,7 @@ public class LockTest3 {
 		}
 	}
 
-	// Ïû·ÑÕß
+	// æ¶ˆè´¹è€…
 	static class Customer {
 		private Depot depot;
 
@@ -103,7 +103,7 @@ public class LockTest3 {
 			this.depot = depot;
 		}
 
-		// Ïû·Ñ²úÆ·£ºÐÂ½¨Ò»¸öÏß³Ì´Ó²Ö¿âÖÐÏû·Ñ²úÆ·¡£
+		// æ¶ˆè´¹äº§å“ï¼šæ–°å»ºä¸€ä¸ªçº¿ç¨‹ä»Žä»“åº“ä¸­æ¶ˆè´¹äº§å“ã€‚
 		public void consume(final int val) {
 			new Thread() {
 				public void run() {

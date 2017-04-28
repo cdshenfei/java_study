@@ -4,12 +4,12 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 // LockTest1.java
-// ²Ö¿â
+// ä»“åº“
 public class LockTest1 {
 
 	static class Depot {
-		private int size; // ²Ö¿âµÄÊµ¼ÊÊıÁ¿
-		private Lock lock; // ¶ÀÕ¼Ëø
+		private int size; // ä»“åº“çš„å®é™…æ•°é‡
+		private Lock lock; // ç‹¬å é”
 
 		public Depot() {
 			this.size = 0;
@@ -37,7 +37,7 @@ public class LockTest1 {
 		}
 	};
 
-	// Éú²úÕß
+	// ç”Ÿäº§è€…
 	static class Producer {
 		private Depot depot;
 
@@ -45,7 +45,7 @@ public class LockTest1 {
 			this.depot = depot;
 		}
 
-		// Ïû·Ñ²úÆ·£ºĞÂ½¨Ò»¸öÏß³ÌÏò²Ö¿âÖĞÉú²ú²úÆ·¡£
+		// æ¶ˆè´¹äº§å“ï¼šæ–°å»ºä¸€ä¸ªçº¿ç¨‹å‘ä»“åº“ä¸­ç”Ÿäº§äº§å“ã€‚
 		public void produce(final int val) {
 			new Thread() {
 				public void run() {
@@ -55,7 +55,7 @@ public class LockTest1 {
 		}
 	}
 
-	// Ïû·ÑÕß
+	// æ¶ˆè´¹è€…
 	static class Customer {
 		private Depot depot;
 
@@ -63,7 +63,7 @@ public class LockTest1 {
 			this.depot = depot;
 		}
 
-		// Ïû·Ñ²úÆ·£ºĞÂ½¨Ò»¸öÏß³Ì´Ó²Ö¿âÖĞÏû·Ñ²úÆ·¡£
+		// æ¶ˆè´¹äº§å“ï¼šæ–°å»ºä¸€ä¸ªçº¿ç¨‹ä»ä»“åº“ä¸­æ¶ˆè´¹äº§å“ã€‚
 		public void consume(final int val) {
 			new Thread() {
 				public void run() {

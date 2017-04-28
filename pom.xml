@@ -9,6 +9,7 @@
 
 	<modules>
 		<module>concurrent</module>
+		<module>guava</module>
 	</modules>
 
 	<build>
@@ -33,6 +34,31 @@
 	<properties>
 		<!-- 项目版本定义 -->
 		<project-name>java_study</project-name>
+		<junit.version>4.11</junit.version>
+		<guava.version> 20.0</guava.version>
 	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+	</dependencies>
 
 </project>
