@@ -10,6 +10,7 @@
 	<modules>
 		<module>concurrent</module>
 		<module>guava</module>
+		<module>nio</module>
 	</modules>
 
 	<build>
